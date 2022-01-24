@@ -66,7 +66,7 @@ export function Header() {
           <Box mr='4' textAlign='right'>
             <Text>Josiel Matos</Text>
             <Text color='gray.300' fontSize='small'>
-              supermassive@gmail.com
+              email@gmail.com
             </Text>
           </Box>
           <Avatar size='md' name="Josiel Matos" src="https://github.com/JosielMatos.png" />
