@@ -19,8 +19,8 @@ export default function SignIn() {
         flexDir='column'
       >
         <Stack spacing='4'>
-          <Input name="email" type="email" label="Email" />
-          <Input name="password" type="password" label="Senha" />
+          <Input name="email" type="email" label="Email" placeholder="name@email.com" />
+          <Input name="password" type="password" label="Senha" placeholder="password"/>
         </Stack>
 
         <Button

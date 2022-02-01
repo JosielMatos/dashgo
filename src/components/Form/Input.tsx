@@ -8,9 +8,10 @@ import {
 interface InputProps extends ChakraInputProps {
   name: string;
   label?: string;
+  placeholder: string;
 }
 
-export function Input({ name, label, ...rest }: InputProps) {
+export function Input({ name, label, placeholder, ...rest }: InputProps) {
   return (
     <FormControl>
       {!!label && <FormLabel htmlFor={label}>{label}</FormLabel>}
@@ -18,6 +19,7 @@ export function Input({ name, label, ...rest }: InputProps) {
         id={name}
         name={name}
         focusBorderColor='pink.500'
+        placeholder={placeholder}
         bgColor='gray.900'
         variant='filled' // input style
         _hover={{
