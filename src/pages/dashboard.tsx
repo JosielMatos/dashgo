@@ -56,6 +56,7 @@ const options: ApexOptions = {
     },
   },
 };
+
 const series = [{ name: "series1", data: [18, 20, 39, 56, 44, 12, 9, 10] }];
 
 export default function Dashboard() {
