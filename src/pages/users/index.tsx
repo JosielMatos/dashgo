@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -15,7 +16,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useQuery } from "react-query";
 
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
@@ -28,11 +29,12 @@ export default function Users() {
     lg: true,
   });
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/users")
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  }, []);
+  const { data, isLoading, error } = useQuery("users", async () => {
+    const response = await fetch("http://localhost:3000/api/users");
+    const data = await response.json();
+
+    return data;
+  });
 
   return (
     <Box>
@@ -60,99 +62,111 @@ export default function Users() {
             </Link>
           </Flex>
 
-          <Table colorScheme='whiteAlpha'>
-            <Thead>
-              <Tr>
-                <Th px={["4", "4", "6"]} color='gray.300' width='8'>
-                  <Checkbox colorScheme='pink' />
-                </Th>
-                <Th>Usuário</Th>
-                {isScreenWide && <Th>Data de cadastro</Th>}
-                <Th w='8'></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td px={["4", "4", "6"]}>
-                  <Checkbox colorScheme='pink' />
-                </Td>
-                <Td>
-                  <Box>
-                    <Text fontWeight='bold'>Josiel Matos</Text>
-                    <Text fontSize='sm' color='gray.300'>
-                      email@gmail.com
-                    </Text>
-                  </Box>
-                </Td>
-                {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
-                <Td>
-                  <Button
-                    as='a'
-                    fontSize='sm'
-                    colorScheme='blackAlpha'
-                    leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
-                    cursor='pointer'
-                  >
-                    {isScreenWide ? "Editar" : ""}
-                  </Button>
-                </Td>
-              </Tr>
+          {isLoading ? (
+            <Flex justify='center'>
+              <Spinner />
+            </Flex>
+          ) : error ? (
+            <Flex justify='center'>
+              <Text>Falha ao carregar os dados</Text>
+            </Flex>
+          ) : (
+            <>
+              <Table colorScheme='whiteAlpha'>
+                <Thead>
+                  <Tr>
+                    <Th px={["4", "4", "6"]} color='gray.300' width='8'>
+                      <Checkbox colorScheme='pink' />
+                    </Th>
+                    <Th>Usuário</Th>
+                    {isScreenWide && <Th>Data de cadastro</Th>}
+                    <Th w='8'></Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td px={["4", "4", "6"]}>
+                      <Checkbox colorScheme='pink' />
+                    </Td>
+                    <Td>
+                      <Box>
+                        <Text fontWeight='bold'>Josiel Matos</Text>
+                        <Text fontSize='sm' color='gray.300'>
+                          email@gmail.com
+                        </Text>
+                      </Box>
+                    </Td>
+                    {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
+                    <Td>
+                      <Button
+                        as='a'
+                        fontSize='sm'
+                        colorScheme='blackAlpha'
+                        leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
+                        cursor='pointer'
+                      >
+                        {isScreenWide ? "Editar" : ""}
+                      </Button>
+                    </Td>
+                  </Tr>
 
-              <Tr>
-                <Td px={["4", "4", "6"]}>
-                  <Checkbox colorScheme='pink' />
-                </Td>
-                <Td>
-                  <Box>
-                    <Text fontWeight='bold'>Josiel Matos</Text>
-                    <Text fontSize='sm' color='gray.300'>
-                      email@gmail.com
-                    </Text>
-                  </Box>
-                </Td>
-                {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
-                <Td>
-                  <Button
-                    as='a'
-                    fontSize='sm'
-                    colorScheme='blackAlpha'
-                    leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
-                    cursor='pointer'
-                  >
-                    {isScreenWide ? "Editar" : ""}
-                  </Button>
-                </Td>
-              </Tr>
+                  <Tr>
+                    <Td px={["4", "4", "6"]}>
+                      <Checkbox colorScheme='pink' />
+                    </Td>
+                    <Td>
+                      <Box>
+                        <Text fontWeight='bold'>Josiel Matos</Text>
+                        <Text fontSize='sm' color='gray.300'>
+                          email@gmail.com
+                        </Text>
+                      </Box>
+                    </Td>
+                    {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
+                    <Td>
+                      <Button
+                        as='a'
+                        fontSize='sm'
+                        colorScheme='blackAlpha'
+                        leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
+                        cursor='pointer'
+                      >
+                        {isScreenWide ? "Editar" : ""}
+                      </Button>
+                    </Td>
+                  </Tr>
 
-              <Tr>
-                <Td px={["4", "4", "6"]}>
-                  <Checkbox colorScheme='pink' />
-                </Td>
-                <Td>
-                  <Box>
-                    <Text fontWeight='bold'>Josiel Matos</Text>
-                    <Text fontSize='sm' color='gray.300'>
-                      email@gmail.com
-                    </Text>
-                  </Box>
-                </Td>
-                {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
-                <Td>
-                  <Button
-                    as='a'
-                    fontSize='sm'
-                    colorScheme='blackAlpha'
-                    leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
-                    cursor='pointer'
-                  >
-                    {isScreenWide ? "Editar" : ""}
-                  </Button>
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
+                  <Tr>
+                    <Td px={["4", "4", "6"]}>
+                      <Checkbox colorScheme='pink' />
+                    </Td>
+                    <Td>
+                      <Box>
+                        <Text fontWeight='bold'>Josiel Matos</Text>
+                        <Text fontSize='sm' color='gray.300'>
+                          email@gmail.com
+                        </Text>
+                      </Box>
+                    </Td>
+                    {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
+                    <Td>
+                      <Button
+                        as='a'
+                        fontSize='sm'
+                        colorScheme='blackAlpha'
+                        leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
+                        cursor='pointer'
+                      >
+                        {isScreenWide ? "Editar" : ""}
+                      </Button>
+                    </Td>
+                  </Tr>
+                </Tbody>
+              </Table>
 
-          <Pagination />
+              <Pagination />
+            </>
+          )}
         </Box>
       </Flex>
     </Box>
