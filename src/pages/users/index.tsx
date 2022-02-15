@@ -33,7 +33,20 @@ export default function Users() {
     const response = await fetch("http://localhost:3000/api/users");
     const data = await response.json();
 
-    return data;
+    const users = data.users.map((user) => {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        }),
+      };
+    });
+
+    return users;
   });
 
   return (
@@ -84,83 +97,33 @@ export default function Users() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td px={["4", "4", "6"]}>
-                      <Checkbox colorScheme='pink' />
-                    </Td>
-                    <Td>
-                      <Box>
-                        <Text fontWeight='bold'>Josiel Matos</Text>
-                        <Text fontSize='sm' color='gray.300'>
-                          email@gmail.com
-                        </Text>
-                      </Box>
-                    </Td>
-                    {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
-                    <Td>
-                      <Button
-                        as='a'
-                        fontSize='sm'
-                        colorScheme='blackAlpha'
-                        leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
-                        cursor='pointer'
-                      >
-                        {isScreenWide ? "Editar" : ""}
-                      </Button>
-                    </Td>
-                  </Tr>
-
-                  <Tr>
-                    <Td px={["4", "4", "6"]}>
-                      <Checkbox colorScheme='pink' />
-                    </Td>
-                    <Td>
-                      <Box>
-                        <Text fontWeight='bold'>Josiel Matos</Text>
-                        <Text fontSize='sm' color='gray.300'>
-                          email@gmail.com
-                        </Text>
-                      </Box>
-                    </Td>
-                    {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
-                    <Td>
-                      <Button
-                        as='a'
-                        fontSize='sm'
-                        colorScheme='blackAlpha'
-                        leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
-                        cursor='pointer'
-                      >
-                        {isScreenWide ? "Editar" : ""}
-                      </Button>
-                    </Td>
-                  </Tr>
-
-                  <Tr>
-                    <Td px={["4", "4", "6"]}>
-                      <Checkbox colorScheme='pink' />
-                    </Td>
-                    <Td>
-                      <Box>
-                        <Text fontWeight='bold'>Josiel Matos</Text>
-                        <Text fontSize='sm' color='gray.300'>
-                          email@gmail.com
-                        </Text>
-                      </Box>
-                    </Td>
-                    {isScreenWide && <Td>22 de Fevereiro, 2022</Td>}
-                    <Td>
-                      <Button
-                        as='a'
-                        fontSize='sm'
-                        colorScheme='blackAlpha'
-                        leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
-                        cursor='pointer'
-                      >
-                        {isScreenWide ? "Editar" : ""}
-                      </Button>
-                    </Td>
-                  </Tr>
+                  {data.map((user) => (
+                    <Tr key={user.id}>
+                      <Td px={["4", "4", "6"]}>
+                        <Checkbox colorScheme='pink' />
+                      </Td>
+                      <Td>
+                        <Box>
+                          <Text fontWeight='bold'>{user.name}</Text>
+                          <Text fontSize='sm' color='gray.300'>
+                            {user.email}
+                          </Text>
+                        </Box>
+                      </Td>
+                      {isScreenWide && <Td>{user.createdAt}</Td>}
+                      <Td>
+                        <Button
+                          as='a'
+                          fontSize='sm'
+                          colorScheme='blackAlpha'
+                          leftIcon={<Icon as={RiPencilLine} fontSize={16} />}
+                          cursor='pointer'
+                        >
+                          {isScreenWide ? "Editar" : ""}
+                        </Button>
+                      </Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
 
