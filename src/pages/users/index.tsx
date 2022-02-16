@@ -22,6 +22,7 @@ import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
+import { api } from "../../services/api";
 
 export default function Users() {
   const isScreenWide = useBreakpointValue({
@@ -29,27 +30,30 @@ export default function Users() {
     lg: true,
   });
 
-  const { data, isLoading, isFetching, error } = useQuery("users", async () => {
-    const response = await fetch("http://localhost:3000/api/users");
-    const data = await response.json();
+  const { data, isLoading, isFetching, error } = useQuery(
+    "users",
+    async () => {
+      const { data } = await api.get("users");
 
-    const users = data.users.map((user) => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        }),
-      };
-    });
+      const users = data.users.map((user) => {
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          }),
+        };
+      });
 
-    return users;
-  }, {
-    staleTime: 1000 * 10,
-  });
+      return users;
+    },
+    {
+      staleTime: 1000 * 10, // 10s de dados "frescos", antes de ficarem obsoletos
+    }
+  );
 
   return (
     <Box>
@@ -62,7 +66,9 @@ export default function Users() {
           <Flex mb='8' justify='space-between' align='center'>
             <Heading size='lg' fontWeight='normal'>
               Lista de Usuários
-              {!isLoading && isFetching && <Spinner size="sm" color="gray.500" ml="4" />}
+              {!isLoading && isFetching && (
+                <Spinner size='sm' color='gray.500' ml='4' />
+              )}
             </Heading>
 
             <Link href='/users/create' passHref>
