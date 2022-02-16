@@ -47,6 +47,8 @@ export default function Users() {
     });
 
     return users;
+  }, {
+    staleTime: 1000 * 10,
   });
 
   return (
