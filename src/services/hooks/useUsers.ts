@@ -1,16 +1,27 @@
 import { useQuery } from "react-query";
 import { api } from "../api";
 
-type User = {
+interface User {
   id: string;
   name: string;
   email: string;
   createdAt: string;
 }
 
+interface GetUsersResponse {
+  users: User[];
+  totalCount: number;
+}
+
 /** Puxar os dados de usuários da api */
-async function getUsers(): Promise<User[]> {
-  const { data } = await api.get("users");
+async function getUsers(page: number): Promise<GetUsersResponse> {
+  const { data, headers } = await api.get("users", {
+    params: {
+      page,
+    },
+  });
+
+  const totalCount = Number(headers["x-total-count"]);
 
   const users = data.users.map((user) => {
     return {
@@ -24,12 +35,16 @@ async function getUsers(): Promise<User[]> {
       }),
     };
   });
-  return users;
+
+  return {
+    users,
+    totalCount,
+  };
 }
 
 /** exportar hook com a query dos dados */
-export function useUsers() {
-  return useQuery("users", getUsers, {
+export function useUsers(page: number) {
+  return useQuery(["users", page], () => getUsers(page), {
     staleTime: 1000 * 10, // 10s de dados "frescos", antes de ficarem obsoletos
   });
 }

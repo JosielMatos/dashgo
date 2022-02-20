@@ -16,6 +16,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useState } from "react";
 
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
@@ -24,6 +25,8 @@ import { Sidebar } from "../../components/Sidebar";
 import { useUsers } from "../../services/hooks/useUsers";
 
 export default function Users() {
+  const [page, setPage] = useState(1);
+
   /** Setar breakpoint mobile e desktop */
   const isScreenWide = useBreakpointValue({
     base: false,
@@ -31,7 +34,7 @@ export default function Users() {
   });
 
   /** Puxar os dados da api pelo hook */
-  const { data, isLoading, isFetching, error } = useUsers();
+  const { data, isLoading, isFetching, error } = useUsers(page);
   
   return (
     <Box>
@@ -84,7 +87,7 @@ export default function Users() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((user) => (
+                  {data.users.map((user) => (
                     <Tr key={user.id}>
                       <Td px={["4", "4", "6"]}>
                         <Checkbox colorScheme='pink' />
@@ -114,7 +117,7 @@ export default function Users() {
                 </Tbody>
               </Table>
 
-              <Pagination totalRegisterCount={200} currentPage={5} onPageChange={() => {}} />
+              <Pagination totalRegisterCount={data.totalCount} currentPage={page} onPageChange={setPage} />
             </>
           )}
         </Box>
