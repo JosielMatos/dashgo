@@ -45,6 +45,6 @@ async function getUsers(page: number): Promise<GetUsersResponse> {
 /** exportar hook com a query dos dados */
 export function useUsers(page: number) {
   return useQuery(["users", page], () => getUsers(page), {
-    staleTime: 1000 * 10, // 10s de dados "frescos", antes de ficarem obsoletos
+    staleTime: 1000 * 60 * 5, // 5min de dados "frescos", antes de ficarem obsoletos
   });
 }

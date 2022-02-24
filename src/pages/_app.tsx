@@ -1,20 +1,19 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import { theme } from "../styles/theme";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { SidebarDrawerProvider } from "../contexts/SidebarDrawerContext";
 import { makeServer } from "../services/mirage";
+import { queryClient } from "../services/queryClient";
 
 if (process.env.NODE_ENV === "development") {
   makeServer();
 }
 
-const queryClient = new QueryClient();
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    //Use chakraProvider context to apply the theme across the app
+      // aplicar o tema de contexto do chakra por volta do app
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <SidebarDrawerProvider>
