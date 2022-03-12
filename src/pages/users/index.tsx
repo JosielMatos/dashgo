@@ -40,7 +40,7 @@ export default function Users() {
   const { data, isLoading, isFetching, error } = useUsers(page);
 
   /** Fazer um pré carregamento dos dados do usuário ao passar o mouse */
-  async function handlePrefetchUser(userId: number) {
+  async function handlePrefetchUser(userId: string) {
     await queryClient.prefetchQuery(
       ["user", userId],
       async () => {
@@ -115,7 +115,7 @@ export default function Users() {
                           <Link
                             color='purple.400'
                             onMouseEnter={() =>
-                              handlePrefetchUser(Number(user.id))
+                              handlePrefetchUser(user.id)
                             }
                           >
                             <Text fontWeight='bold'>{user.name}</Text>
